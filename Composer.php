@@ -25,7 +25,8 @@ class Composer
         foreach ($dirs as $dir) {
             if (!$fs->exists($dir)) {
                 try {
-                    $fs->mkdir($dir, 0777);
+                    $fs->mkdir($dir);
+                    $fs->chmod($dir, 0777, 0000);
                     echo self::$ok.'create directory '.$dir.self::$nl;
                 } catch (IOException $e) {
                     self::$error = true;
@@ -33,7 +34,7 @@ class Composer
                 }
             }
 
-            if (is_writable($dir)) {
+            if ($fs->exists($dir) && is_readable($dir) && is_writable($dir)) {
                 echo self::$ok.$dir." is writable".self::$nl;
             } else {
                 self::$error = true;
