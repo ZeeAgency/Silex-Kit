@@ -6,19 +6,24 @@ use Symfony\Component\Filesystem\Exception\IOException;
 
 class Composer
 {
-    private static $nl = "\n";
-    private static $ok = "\033[0;32m OK \033[0m\t";
-    private static $nok = "\033[0;31m NOK \033[0m\t";
-    private static $error = false;
+    protected static $nl = "\n";
+    protected static $ok = "\033[0;32m OK \033[0m\t";
+    protected static $nok = "\033[0;31m NOK \033[0m\t";
+    protected static $error = false;
 
-    public static function postInstall()
+    public static function getDirs()
     {
-        echo self::$nl;
-        $dirs = array(
+        return array(
             'app/cache',
             'app/cache/twig',
             'app/logs',
         );
+    }
+
+    public static function postInstall()
+    {
+        echo static::$nl;
+        $dirs = static::getDirs();
 
         $fs = new Filesystem();
 
@@ -27,30 +32,30 @@ class Composer
                 try {
                     $fs->mkdir($dir);
                     $fs->chmod($dir, 0777, 0000);
-                    echo self::$ok.'create directory '.$dir.self::$nl;
+                    echo static::$ok.'create directory '.$dir.static::$nl;
                 } catch (IOException $e) {
-                    self::$error = true;
-                    echo self::$nok.'failed to create directory '.$dir.self::$nl;
+                    static::$error = true;
+                    echo static::$nok.'failed to create directory '.$dir.static::$nl;
                 }
             }
 
             if ($fs->exists($dir) && is_readable($dir) && is_writable($dir)) {
-                echo self::$ok.$dir." is writable".self::$nl;
+                echo static::$ok.$dir." is writable".static::$nl;
             } else {
-                self::$error = true;
-                echo self::$nok.$dir." is NOT writable".self::$nl;
+                static::$error = true;
+                echo static::$nok.$dir." is NOT writable".static::$nl;
             }
         }
 
-        if (self::$error) {
-            echo self::$nok.'Something FAILED :(';
+        if (static::$error) {
+            echo static::$nok.'Something FAILED :(';
         } else {
-            echo self::$ok.'Done :)';
+            echo static::$ok.'Done :)';
         }
 
-        echo self::$nl.self::$nl;
+        echo static::$nl.static::$nl;
 
-        self::copyEnvironment($fs);
+        static::copyEnvironment($fs);
     }
 
     public static function copyEnvironment(Filesystem $fs)
@@ -61,12 +66,12 @@ class Composer
 
         try {
             $fs->copy('environment.php.dist', 'environment.php');
-            echo self::$ok.'environment.php successfully created!';
+            echo static::$ok.'environment.php successfully created!';
         } catch (\Exception $e) {
-            echo self::$nok.'couldn\'t create environment.php!'.self::$nl;
+            echo static::$nok.'couldn\'t create environment.php!'.static::$nl;
             echo "\t".$e->getMessage();
         }
 
-        echo self::$nl.self::$nl;
+        echo static::$nl.static::$nl;
     }
 }
