@@ -4,6 +4,7 @@ namespace Zee;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Silex\Application;
+use Symfony\Bridge\Monolog\Logger;
 
 abstract class Controller
 {
@@ -12,6 +13,9 @@ abstract class Controller
 
     /** @var Module $module */
     protected $module;
+
+    /** @var Logger $module */
+    protected $logger;
 
     /** @var \Twig_Environment $twig */
     protected $twig;
@@ -30,9 +34,18 @@ abstract class Controller
     {
         $this->app = $app;
         $this->module = $module;
+        $this->logger = $this->getLogger();
         $this->twig = $this->getTwig();
         $this->repo = $this->getRepo();
         $this->em = $this->getEm();
+    }
+
+    /**
+     * @return Logger|null
+     */
+    protected function getLogger()
+    {
+        return $this->app->offsetExists('monolog') ? $this->app['monolog'] : null;
     }
 
     /**

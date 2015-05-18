@@ -4,6 +4,7 @@
     "description": "Libraries to use with ZeeSilexKit",
     "require": {
         "symfony/console": "~2.3",
+        "symfony/monolog-bridge": "~2.3",
         "symfony/filesystem": "~2.3",
         "symfony/finder": "~2.3",
         "doctrine/dbal": "~2.3",
