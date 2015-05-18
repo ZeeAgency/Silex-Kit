@@ -44,19 +44,11 @@ abstract class Controller
     }
 
     /**
-     * @return EntityRepository
+     * @return EntityRepository|null
      */
     protected function getRepo()
     {
-        $repo = null;
-
-        try {
-            $repo = $this->module['entity.repository'];
-        } catch (\InvalidArgumentException $e) {
-
-        }
-
-        return $repo;
+        return $this->module->offsetExists('entity.class') ? $this->module['entity.repository'] : null;
     }
 
     /**
