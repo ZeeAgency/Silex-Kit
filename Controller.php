@@ -19,7 +19,7 @@ abstract class Controller
     /** @var EntityManager $em */
     protected $em;
 
-    /** @var EntityRepository $repo */
+    /** @var EntityRepository|null $repo */
     protected $repo;
 
     /**
@@ -48,7 +48,15 @@ abstract class Controller
      */
     protected function getRepo()
     {
-        return $this->module['entity.repository'];
+        $repo = null;
+
+        try {
+            $repo = $this->module['entity.repository'];
+        } catch (\InvalidArgumentException $e) {
+
+        }
+
+        return $repo;
     }
 
     /**
