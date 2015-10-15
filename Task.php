@@ -4,6 +4,11 @@ namespace Zee;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class Task
+ * @deprecated
+ * @package Zee
+ */
 abstract class Task
 {
     public function __construct($app)
