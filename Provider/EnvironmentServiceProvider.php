@@ -57,6 +57,7 @@ class EnvironmentServiceProvider implements ServiceProviderInterface
 
             if (file_exists($environment)) {
                 $env = require $environment;
+                putenv(sprintf('APP_ENV=%s', $env));
             }
         }
 
