@@ -26,7 +26,6 @@ class TwigCoreExtension extends \Twig_Extension
             'prettyprint' =>    new \Twig_Function_Function('prettyprint', array('is_safe' => array('html'))),
             'uniqid' =>         new \Twig_Function_Function('uniqid'),
             'json_encode' =>    new \Twig_Function_Function('json_encode'),
-            'reset' =>          new \Twig_Function_Function('reset'),
         );
     }
 
@@ -38,7 +37,6 @@ class TwigCoreExtension extends \Twig_Extension
             'var_dump' =>       new \Twig_Filter_Function('var_dump'),
             'prettyprint' =>    new \Twig_Filter_Function('prettyprint', array('is_safe' => array('html'))),
             'uniqid' =>         new \Twig_Filter_Function('uniqid'),
-            'first' =>          new \Twig_Filter_Function('reset'),
         );
     }
 
